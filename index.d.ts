@@ -123,6 +123,140 @@ declare namespace OSDI {
     url: string;
   }
 
+  interface IPhoneNumber {
+    /**
+     * Denotes if this is the primary phone number. A person can have only one primary number.
+     */
+    primary: string;
+
+    /**
+     * The phone number of the person. Must include country code and must be numeric characters only.
+     */
+    number: string;
+
+    /**
+     * An optional associated extension for the phone number.
+     */
+    extension: string;
+
+    /**
+     * A freeform description of the phone number.
+     */
+    description: string;
+
+    /**
+     * The type of phone number. One of “Home”, “Work”, “Mobile”, “Other”, “Daytime”, “Evening”, “Fax”, or another value.
+     */
+    number_type: string;
+
+    /**
+     * The operator or carrier associated with the number. Example: “Verizon”
+     */
+    operator: string;
+
+    /**
+     * The country code according to ISO 3166-1 Alpha-2.
+     */
+    country: string;
+
+    /**
+     * True if the number can accept SMS text messages.
+     */
+    sms_capable: boolean;
+
+    /**
+     * True if this number is registered on the US FCC Do Not Call Registry.
+     */
+    do_not_call: boolean;
+  }
+
+  interface IPostalAddress {
+    /**
+     * Denotes if this is the primary address. A person can have only one primary address.
+     */
+    primary: boolean;
+
+    /**
+     * The type of address. One of “Home”, “Work”, or “Mailing”.
+     */
+    address_type: "Home" | "Work" | "Mailing";
+
+    /**
+     * Optional venue name at the address, useful for names of buildings. (ex: Smith Hall)
+     */
+    venue: string;
+
+    /**
+     * An array of strings representing the person’s street address.
+     */
+    address_lines: string[];
+
+    /**
+     * A city or other local administrative area.
+     */
+    locality: string;
+
+    /**
+     * State or subdivision codes according to ISO 3166-2 (Final 2 alpha digits).
+     */
+    region: string;
+
+    /**
+     * The region specific postal code, such as a zip code.
+     */
+    postal_code: string;
+
+    /**
+     * The country code according to ISO 3166-1 Alpha-2.
+     */
+    country: string;
+
+    /**
+     * Language in which the address is recorded – language code according to ISO 639.
+     */
+    language: string;
+
+    /**
+     * An object hash representing the geocoded location information for the address.
+     */
+    location: location;
+
+    /**
+     * A value representing the status of the address. One of “Potential”, “Verified”, “Bad”, or “Past”.
+     */
+    status: "Potential" | "Verified" | "Bad" | "Past";
+
+    /**
+     * A value representing the last verified date of the address.
+     */
+    last_verified_date: Date;
+
+    occupation: string;
+  }
+
+  interface IEmailAddress {
+    /**
+     * Denotes if this is the primary address. A person can have only one primary address.
+     */
+    primary: boolean;
+
+    /**
+     * The email address for the person.
+     */
+    address: string;
+
+    /**
+     * The type of email address. One of “personal”, “work”, “other”, or another value.
+     */
+    address_type: string;
+
+    /**
+     * Indicates whether this email address is subscribed to receive emails in the system,
+     * either on one or more email lists. One of “subscribed”, “unsubscribed”, “bouncing”, “spam complaints”.
+     */
+    status: string;
+  }
+
   /**
    * People are individual users who are stored in the OSDI system’s database in some way.
    * People have names, email addresses, and other information, and they have associated action histories recording the actions they’ve taken on the system, such as a list of their signatures on various petitions.
@@ -343,145 +477,17 @@ declare namespace OSDI {
     /**
      * An array of postal address object hashes associated with the person.
      */
-    postal_addresses: Array<{
-      /**
-       * Denotes if this is the primary address. A person can have only one primary address.
-       */
-      primary: boolean;
-
-      /**
-       * The type of address. One of “Home”, “Work”, or “Mailing”.
-       */
-      address_type: "Home" | "Work" | "Mailing";
-
-      /**
-       * Optional venue name at the address, useful for names of buildings. (ex: Smith Hall)
-       */
-      venue: string;
-
-      /**
-       * An array of strings representing the person’s street address.
-       */
-      address_lines: string[];
-
-      /**
-       * A city or other local administrative area.
-       */
-      locality: string;
-
-      /**
-       * State or subdivision codes according to ISO 3166-2 (Final 2 alpha digits).
-       */
-      region: string;
-
-      /**
-       * The region specific postal code, such as a zip code.
-       */
-      postal_code: string;
-
-      /**
-       * The country code according to ISO 3166-1 Alpha-2.
-       */
-      country: string;
-
-      /**
-       * Language in which the address is recorded – language code according to ISO 639.
-       */
-      language: string;
-
-      /**
-       * An object hash representing the geocoded location information for the address.
-       */
-      location: location;
-
-      /**
-       * A value representing the status of the address. One of “Potential”, “Verified”, “Bad”, or “Past”.
-       */
-      status: "Potential" | "Verified" | "Bad" | "Past";
-
-      /**
-       * A value representing the last verified date of the address.
-       */
-      last_verified_date: Date;
-
-      occupation: string;
-    }>;
+    postal_addresses: IPostalAddress;
 
     /**
      * An array of email address object hashes associated with the person.
      */
-    email_addresses: Array<{
-      /**
-       * Denotes if this is the primary address. A person can have only one primary address.
-       */
-      primary: boolean;
-
-      /**
-       * The email address for the person.
-       */
-      address: string;
-
-      /**
-       * The type of email address. One of “personal”, “work”, “other”, or another value.
-       */
-      address_type: string;
-
-      /**
-       * Indicates whether this email address is subscribed to receive emails in the system,
-       * either on one or more email lists. One of “subscribed”, “unsubscribed”, “bouncing”, “spam complaints”.
-       */
-      status: string;
-    }>;
+    email_addresses: IEmailAddress[];
 
     /**
      * An array of phone number object hashes associated with the person.
      */
-    phone_numbers: Array<{
-      /**
-       * Denotes if this is the primary phone number. A person can have only one primary number.
-       */
-      primary: string;
-
-      /**
-       * The phone number of the person. Must include country code and must be numeric characters only.
-       */
-      number: string;
-
-      /**
-       * An optional associated extension for the phone number.
-       */
-      extension: string;
-
-      /**
-       * A freeform description of the phone number.
-       */
-      description: string;
-
-      /**
-       * The type of phone number. One of “Home”, “Work”, “Mobile”, “Other”, “Daytime”, “Evening”, “Fax”, or another value.
-       */
-      number_type: string;
-
-      /**
-       * The operator or carrier associated with the number. Example: “Verizon”
-       */
-      operator: string;
-
-      /**
-       * The country code according to ISO 3166-1 Alpha-2.
-       */
-      country: string;
-
-      /**
-       * True if the number can accept SMS text messages.
-       */
-      sms_capable: boolean;
-
-      /**
-       * True if this number is registered on the US FCC Do Not Call Registry.
-       */
-      do_not_call: boolean;
-    }>;
+    phone_numbers: IPhoneNumber[];
 
     /**
      * An array of profile object hashes for online services related to the person.
@@ -1206,6 +1212,9 @@ declare namespace OSDI {
     total_shares: number;
   }
 
+  /**
+   * Submissions are a type of action that a user may take by completing a form. Submissions have fields to describe them such as when the submission was created and typically are linked to the person who made the submission as well as any information they submitted in the form of Question and Question Answer resources.
+   */
   interface Submission extends OSDIResource {
     /**
      * A human readable identifier of the system where this submission was created. (ex: “OSDI System”)
@@ -1221,5 +1230,172 @@ declare namespace OSDI {
      * An object hash representing referrer and sourcing information about this submission.
      */
     referrer_data: IReferrer;
+  }
+
+  /**
+   * Outreaches are a type of action that a user may take by participating in an advocacy campaign. Outreaches have fields to describe them such as when the outreach was created, who the user contacted as the target of their advocacy, and the content of the message a user sent to that target, and typically are linked to the person who made the outreach.
+   */
+  interface Outreach extends OSDIResource {
+    /**
+     * A human readable identifier of the system where this outreach was created. (ex: “OSDI System”)
+     */
+    origin_system: string;
+
+    /**
+     * The date and time the outreach was made by the person.
+     */
+    action_date: string;
+
+    /**
+     * The subject of the outreach, if applicable. (ex: subject will only be present on email outreach types)
+     */
+    subject: string;
+
+    /**
+     * The message of the outreach, if applicable. (ex: message will only be present on email or postal mail outreach types)
+     */
+    message: string;
+
+    /**
+     * Notes left by the person doing the outreach, if any. For example, any feedback they got from the person they called.
+     */
+    notes: string;
+
+    /**
+     * The type of outreach, specifying how the user performed the outreach to targets.One of “email”, “in -person”, “phone”, “postal mail”, or another type as needed.
+     */
+    type: "email" | "in-person" | "phone" | "postal mail" | string;
+
+    /**
+     * The duration in seconds of the outreach, if applicable. (ex: duration will only be present on phone outreach types)
+     */
+    duration: number;
+
+    referrer_data: IReferrer;
+
+    targets: Array<{
+      /**
+       * The title or position of the target. (ex: “Senator” or “CEO”)
+       */
+      title: string;
+
+      /**
+       * The organization the target belongs to. (ex: “U.S. Senate” or “Acme Corporation”)
+       */
+      organization: string;
+
+      /**
+       * The first or given name of the target. (ex: “John”)
+       */
+      given_name: string;
+
+      /**
+       * The last or family name of the target. (ex: “Smith”)
+       */
+      family_name: string;
+
+      /**
+       * The Open Civic Data Division ID for this target’s political geography, if applicable. See here for more documentation. (ex: “ocd-division/country:us/state:ny/cd:18”, which corresponds to New York’s 18th Congressional District)
+       */
+      ocdid: string;
+
+      postal_addresses: IPostalAddress[];
+      email_addresses: IEmailAddress[];
+      phone_numbers: IPhoneNumber[];
+    }>
+  }
+
+  /**
+   * Signatures are a type of action that a user may take by completing a petition. Signatures have fields to describe them such as when the signature was created and typically are linked to the person who made the signature.
+   */
+  interface Signature extends OSDIResource {
+    /**
+     * A human readable identifier of the system where this signature was created. (ex: “OSDI System”)
+     */
+    origin_system: string;
+
+    /**
+     * The date and time the signature was made by the person.
+     */
+    action_date: string;
+
+    /**
+     * The comments left by the person when the signature was created.
+     */
+    comments: string;
+
+    referrer_data: IReferrer;
+  }
+
+  /**
+   * Fundraising pages represent a page on a website that can take donations or other types of payment from end users. Fundraising pages have fields to describe them such as names, titles, summaries, and descriptions, and when activists submit a fundraising page and are charged money, Donation resources are created representing the individual donation an activist made on that fundraising page.
+   */
+  interface FundraisingPage extends OSDIResource {
+    /**
+     * A human readable identifier of the system where this fundraising page was created. (ex: “OSDI System”)
+     */
+    origin_system: string;
+
+    /**
+     * The name of the fundraising page. Intended for administrative display rather than a public title, though may be shown to a user.
+     */
+    name: string;
+
+    /**
+     * The title of the fundraising page. Intended for public display rather than administrative purposes.
+     */
+    title: string;
+
+    /**
+     * A description of the fundraising page, usually displayed publicly. May contain text and/or HTML.
+     */
+    description: string;
+
+    /**
+     * A text-only single paragraph summarizing the fundraising page. Shown on listing pages that have more than titles, but not enough room for full description.
+     */
+    summary: string;
+
+    /**
+     * A URL string pointing to the publicly available fundraising page on the web.
+     */
+    browser_url: string;
+
+    /**
+     * A URL string pointing to the fundraising page’s administrative page on the web.
+     */
+    administrative_url: string;
+
+    /**
+     * A URL string pointing to a publicly available featured image file for this fundraising page on the web.
+     */
+    featured_image_url: string;
+
+    /**
+     * ISO 4217 designation of currency. (ex: “USD” or “JPY”)
+     */
+    currency: string;
+
+    /**
+     * A URL string pointing to the page that will be shared when this content is shared. (This may be subsumed by a particular share_option’s share_url)
+     */
+    share_url: string;
+
+    /**
+     * A read-only computed property representing the current count of the total number of donations on the fundraising page.
+     */
+    total_donations: number;
+
+    /**
+     * A read-only computed property representing the current count of the total amount of money raised on the fundraising page.
+     */
+    total_amount: number;
+
+    /**
+     * A computed property representing the current count of the total number of times the content has been shared by activists.
+     */
+    total_shares: number;
+
+    share_options: IShareOptions[];
   }
 }
